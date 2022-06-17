@@ -33,6 +33,7 @@ public final class AntiCL extends JavaPlugin implements Listener {
             return;
         }
         UUID victim = (e.getEntity()).getUniqueId();
+
         if (taggedList.containsKey(victim)) {
             taggedList.put(victim, Instant.now().getEpochSecond() + 10);
             return;
@@ -61,7 +62,7 @@ public final class AntiCL extends JavaPlugin implements Listener {
             @Override
             public void run() {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (!taggedList.containsKey(p.getUniqueId())) {return;}
+                    if (!taggedList.containsKey(p.getUniqueId())) {continue;}
                     if (Instant.now().getEpochSecond() > taggedList.get(p.getUniqueId())) {
                         taggedList.remove(p.getUniqueId());
                         p.sendMessage(ChatColor.GREEN + "You can now safely log out.");
