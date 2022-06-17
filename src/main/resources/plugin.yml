@@ -1,0 +1,4 @@
+name: AntiCL
+version: '${project.version}'
+main: me.cooleg.anticl.AntiCL
+api-version: 1.19
