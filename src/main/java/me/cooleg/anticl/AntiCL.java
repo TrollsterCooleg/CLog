@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -55,6 +56,14 @@ public final class AntiCL extends JavaPlugin implements Listener {
         if (!taggedList.containsKey(e.getPlayer().getUniqueId())) {return;}
         e.getPlayer().setHealth(0);
         taggedList.remove(e.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        if (!taggedList.containsKey(e.getPlayer().getUniqueId())) {return;}
+        e.getPlayer().sendMessage(ChatColor.RED + "You may not run commands when combat tagged!");
+        e.setCancelled(true);
+        return;
     }
 
     private void startRunnable() {
