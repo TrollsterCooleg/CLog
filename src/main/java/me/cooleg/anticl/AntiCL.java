@@ -16,13 +16,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public final class AntiCL extends JavaPlugin implements Listener {
 
     final int logoutTimer = 30;
 
+    List<UUID> toShame = new ArrayList<>();
     HashMap<UUID, Long> taggedList = new HashMap<>();
     @Override
     public void onEnable() {
@@ -51,15 +54,21 @@ public final class AntiCL extends JavaPlugin implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         if (taggedList.containsKey(e.getEntity().getUniqueId())) {
             taggedList.remove(e.getEntity().getUniqueId());
-            String victim = e.getEntity().getName();
-            e.setDeathMessage(victim + " wimped out of a fight and died ");
         }
+        if (toShame.contains(e.getEntity().getUniqueId())) {
+            String victim = e.getEntity().getName();
+            e.setDeathMessage(victim + " wimped out of a fight and died");
+            toShame.remove(e.getEntity().getUniqueId());
+        }
+        return;
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         if (!taggedList.containsKey(e.getPlayer().getUniqueId())) {return;}
+        toShame.add(e.getPlayer().getUniqueId());
         e.getPlayer().setHealth(0);
+        return;
     }
 
     @EventHandler
