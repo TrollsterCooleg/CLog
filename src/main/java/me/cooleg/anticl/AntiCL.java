@@ -1,9 +1,11 @@
 package me.cooleg.anticl;
 
+import net.minecraft.network.protocol.game.PacketPlayOutKeepAlive;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -28,8 +30,9 @@ public final class AntiCL extends JavaPlugin implements Listener {
         startRunnable();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onHit(EntityDamageByEntityEvent e) {
+        if (e.isCancelled()) {return;}
         if (!(e.getDamager() instanceof Player) || !(e.getEntity() instanceof Player)) {
             return;
         }
@@ -48,6 +51,8 @@ public final class AntiCL extends JavaPlugin implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         if (taggedList.containsKey(e.getEntity().getUniqueId())) {
             taggedList.remove(e.getEntity().getUniqueId());
+            String victim = e.getEntity().getName();
+            e.setDeathMessage(victim + " wimped out of a fight and died");
         }
     }
 
@@ -80,4 +85,6 @@ public final class AntiCL extends JavaPlugin implements Listener {
             }
         }.runTaskTimer(this, 20L, 20L);
     }
+
+
 }
