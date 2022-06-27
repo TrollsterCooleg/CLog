@@ -52,7 +52,7 @@ public final class AntiCL extends JavaPlugin implements Listener {
         if (taggedList.containsKey(e.getEntity().getUniqueId())) {
             taggedList.remove(e.getEntity().getUniqueId());
             String victim = e.getEntity().getName();
-            e.setDeathMessage(victim + " wimped out of a fight and died");
+            e.setDeathMessage(victim + " wimped out of a fight and died ");
         }
     }
 
@@ -60,7 +60,6 @@ public final class AntiCL extends JavaPlugin implements Listener {
     public void onLeave(PlayerQuitEvent e) {
         if (!taggedList.containsKey(e.getPlayer().getUniqueId())) {return;}
         e.getPlayer().setHealth(0);
-        taggedList.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler
