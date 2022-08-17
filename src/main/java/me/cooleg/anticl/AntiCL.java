@@ -1,6 +1,5 @@
 package me.cooleg.anticl;
 
-import net.minecraft.network.protocol.game.PacketPlayOutKeepAlive;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -93,6 +92,5 @@ public final class AntiCL extends JavaPlugin implements Listener {
             }
         }.runTaskTimer(this, 20L, 20L);
     }
-
 
 }
